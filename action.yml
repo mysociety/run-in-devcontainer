@@ -1,15 +1,18 @@
-name: 'run-in-devcontainer'
+name: 'Run command in dev-container'
 description: 'Run a series of commands inside the default devcontainer'
-version: 0.1.0
+version: 1.0.0
 
 inputs:
-  example_input: 
-    description: 'Example input'
+  run: 
+    description: 'Commands to run inside context'
     required: true
-outputs:
-  example_output:
-    description: "The repo of 'user/repo'."
-    value: ${{ steps.example_step.outputs.repo_name }}
+  shell: 
+    description: 'shell to run command on inside docker'
+    default: 'bash --noprofile --norc -eo pipefail'
+  app: 
+    description: 'docker-compose app to run command in'
+    required: true
+    default: 'app'
 
 runs:
   using: "composite"
@@ -20,11 +23,27 @@ runs:
       with: 
         action_path: ${{ github.action_path }}
 
-    - name: Example step
-      id: example_step
+    - name: Build image from docker-compose
+      uses: ./.github/actions/cached-build
+      with:
+        branch: "main"
+        dockerfile: Dockerfile.dev
+        push_to_registry: false
+    
+    - name: construct docker command
       shell: bash
       run: |
-        echo "example_output=hello world $EXAMPLE_INPUT" >> $GITHUB_OUTPUT
-      env:
-        EXAMPLE_INPUT: ${{ inputs.example_input }}
-    
+        composeFiles="-f docker-compose.yml"
+        shellCommands='$@'
+        echo "docker-compose $composeFiles run --volume /home/runner:/home/runner/ ${{ inputs.app }} ${{ inputs.shell }} $shellCommands" > ${{ github.action_path }}/docker_command.sh
+        echo "${{ github.action_path }}" >> $GITHUB_PATH
+
+    - name: Run script in docker
+      shell: bash docker_command.sh {0}
+      run: |
+        ${{ inputs.run }}
+
+    - name: Clean up created shell
+      shell: bash
+      run: |
+        rm -r ${{ github.action_path }}/docker_command.sh
