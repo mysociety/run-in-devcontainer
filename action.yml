@@ -1,6 +1,6 @@
 name: 'Run command in dev-container'
 description: 'Run a series of commands inside the default devcontainer'
-version: 1.0.0
+version: 1.0.1
 
 inputs:
   run: 
@@ -24,7 +24,7 @@ runs:
         action_path: ${{ github.action_path }}
 
     - name: Build image from docker-compose
-      uses: ./.github/actions/cached-build
+      uses: mysociety/cached-build-action@v1
       with:
         branch: "main"
         dockerfile: Dockerfile.dev
