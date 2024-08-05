@@ -1,6 +1,6 @@
 # Run command in dev-container
 
-Version: 1.0.1
+Version: 1.0.2
 
 Run a series of commands inside the default devcontainer
 
@@ -8,7 +8,7 @@ Run a series of commands inside the default devcontainer
 
 ```yaml
 
-- uses: mysociety/run-in-devcontainer@2200446d40095780e7271c0ea73497ed2bd68b99 # v1.0.1
+- uses: mysociety/run-in-devcontainer@v1.0.2 # Replace with commit hash for safety
   id: example-step 
   with:
     run: '' 
@@ -35,7 +35,7 @@ Default: bash --noprofile --norc -eo pipefail
 
 Required.
 
-docker-compose app to run command in
+docker compose app to run command in
 
 Default: app
 
