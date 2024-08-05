@@ -8,7 +8,7 @@ Run a series of commands inside the default devcontainer
 
 ```yaml
 
-- uses: mysociety/run-in-devcontainer@v1.0.2 # Replace with commit hash for safety
+- uses: mysociety/run-in-devcontainer@dc063e6c8ae7a2b4162c1c10a7a99bcaf2df8b1e # v1.0.2
   id: example-step 
   with:
     run: '' 
