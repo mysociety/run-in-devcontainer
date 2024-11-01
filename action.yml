@@ -1,6 +1,6 @@
 name: 'Run command in dev-container'
 description: 'Run a series of commands inside the default devcontainer'
-version: 1.0.2
+version: 1.1.0
 
 inputs:
   run: 
@@ -13,6 +13,10 @@ inputs:
     description: 'docker compose app to run command in'
     required: true
     default: 'app'
+  dockerfile:
+    description: 'Dockerfile to build'
+    required: false
+    default: 'Dockerfile.dev'
 
 runs:
   using: "composite"
@@ -27,7 +31,7 @@ runs:
       uses: mysociety/cached-build-action@v1
       with:
         branch: "main"
-        dockerfile: Dockerfile.dev
+        dockerfile: ${{ inputs.dockerfile }}
         push_to_registry: false
     
     - name: construct docker command
