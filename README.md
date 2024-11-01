@@ -1,6 +1,6 @@
 # Run command in dev-container
 
-Version: 1.1.0
+Version: 1.1.1
 
 Run a series of commands inside the default devcontainer
 
@@ -8,7 +8,7 @@ Run a series of commands inside the default devcontainer
 
 ```yaml
 
-- uses: mysociety/run-in-devcontainer@102cc1b093ed548f3d5afda2d3cde813d6d9359c # v1.1.0
+- uses: mysociety/run-in-devcontainer@v1.1.1 # Replace with commit hash for safety
   id: example-step 
   with:
     run: '' 
