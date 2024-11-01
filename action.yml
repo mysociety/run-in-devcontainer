@@ -1,6 +1,6 @@
 name: 'Run command in dev-container'
 description: 'Run a series of commands inside the default devcontainer'
-version: 1.1.0
+version: 1.1.1
 
 inputs:
   run: 
@@ -32,6 +32,7 @@ runs:
       with:
         branch: "main"
         dockerfile: ${{ inputs.dockerfile }}
+        docker_compose_file_app: ${{ inputs.app }}
         push_to_registry: false
     
     - name: construct docker command
